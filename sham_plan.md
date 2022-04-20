@@ -32,30 +32,34 @@ consistent with the integration time of polysensory
 neurons in the brain1,2
 
 
-> Across studies, the most commonly used parameters include a 2° white disk presented 5° below fixation for 10ms, accompanied by two *80dB*, *3500Hz* tones presented for *10ms* each. The first tone is usually presented at the same time as the visual stimulus, or ∼23ms prior to the visual stimulus (Shams et al., 2002). The SOA between the first and the second tone systematically alters the strength of the illusion, therefore the selection of these parameters has important consequences for performance.
+> Across studies, the most commonly used parameters include a 2° white disk presented 5° below fixation for *10ms*, accompanied by two *80dB*, *3500Hz* tones presented for *10ms* each. The first tone is usually presented at the same time as the visual stimulus, or ∼23ms prior to the visual stimulus (Shams et al., 2002). The SOA between the first and the second tone systematically alters the strength of the illusion, therefore the selection of these parameters has important consequences for performance.
 
 ## Conditions:
 
-Beeps/Flashes | 1 | 2 | 3 | 4 
---- | --- | --- | --- | --- 
-0 | |||
-1 | |||
-2 | |x|x|x
-3 | |x|x|x
-4 | |x|x|x
+Conditions|Beeps/Flashes | 1 | 2 | 3 | 4 
+--- | --- | --- | --- | --- | --- 
+Control |0 | |||
+Catch |1 | |||
+Test|2 | |x|x|x
+Test |3 | |x|x|x
+Test |4 | |x|x|x
 
 20 combinations, 5 times : 100 trials
 
-But in the analysis we only have conditions: controls (0 beep, 1-4 flashes); catch trials (1 beep, 1-4 flashes); test trials (2-4 beeps, 1 flash.) -> 11 conditions, 5 times : 55 trials. 
+But as shown by the crosses in the table indicating the combinations we won't need in the analysis, we actually only have 11 combinations, thus 55 trials. 
+
+Our different conditions are: control (0 beep, 1-4 flashes); catch (1 beep, 1-4 flashes); test (2-4 beeps, 1 flash) 
+-> 4x5 control trials, 4x5 catch trials, 3x5 test trials. 
 
 
 ## All the things to solve:
 
-- what is the best way to generate the right factor combinations (i.e. the (beep_number, flash_number) pairs). or do i just import them directly?
-- do i generate or import trials with expyriment?
-- how to present simultaneous audio and image stims correctly. how to repeat them according to factors for each trial, cleanly.
-- how do i analyse the data that i get, which is RT, answered number of flashes, and the factors. 
-- do i split the trials between catch trials, controls and test trials for data analysis, and how.
+- i don't get the angle values used for the circle stim in shams' description (notably: "subtending 2 degrees at 5 degrees eccentricity"). right now i chose to just drop it and generate the disk i want in my own way, but i could go back to it later. 
+- what is the best way to generate the right factor combinations (i.e. the (beep_number, flash_number) pairs)? or do i just import them directly?
+- thus: do i generate trials with expyriment, or import trials from csv file?
+- how do i present simultaneous audio and image stims correctly? how/where in the code do i repeat them according to factors for each trial, cleanly?
+- how do i analyse the data that i get, which is RT, answered number of flashes, and the factors (number of flashes, number of beeps). 
+- do i split the trials between catch trials, controls and test trials for data analysis, and how? do i make it a factor?
 
 ## Pieces of code to add:
 

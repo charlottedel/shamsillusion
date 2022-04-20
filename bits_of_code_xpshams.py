@@ -10,22 +10,34 @@ control.initialize(exp)
 WHITE = (255, 255, 255)
 BLACK = (0,0,0)
 
+
+
 N_FLASHES_CATCHCONTROL = [1, 2, 3, 4]
 N_BEEPS_CATCH = [1]
 N_BEEPS_CONTROL = [0]
+
 N_FLASHES_TEST = [1]
 N_BEEPS_TEST = [2, 3, 4]
-STIM_COMBINATIONS = []
 
-for i in N_FLASHES_CATCHCONTROL:
-	for j in N_BEEPS_CONTROL:
-		STIM_COMBINATIONS.append((i,j))
-for i in N_FLASHES_CATCHCONTROL:
-	for j in N_BEEPS_CATCH:
-		STIM_COMBINATIONS.append((i,j))
-for i in N_FLASHES_TEST:
-	for j in N_BEEPS_TEST:
-		STIM_COMBINATIONS.append((i,j))
+ALL_STIM_COMBINATIONS = []
+STIM_COMBINATIONS_TEST = []
+STIM_COMBINATIONS_CONTROL = []
+STIM_COMBINATIONS_CATCH = []
+
+CATCH = (N_FLASHES_CATCHCONTROL, N_BEEPS_CATCH, STIM_COMBINATIONS_CATCH)
+CONTROL = (N_FLASHES_CATCHCONTROL, N_BEEPS_CONTROL, STIM_COMBINATIONS_CONTROL)
+TEST = (N_FLASHES_TEST, N_BEEPS_TEST, STIM_COMBINATIONS_TEST)
+
+CONDITIONS = [CATCH, CONTROL, TEST]
+
+def fill_stim_combinations_lists (condition):
+    for N_flash in condition[0] :
+        for N_beep in condition[1] :
+            ALL_STIM_COMBINATIONS.append((N_flash,N_beep))
+            condition[2].append((N_flash,N_beep))
+
+for cond in CONDITIONS:
+    fill_stim_combinations_lists(cond)
 
 N_TRIALS_PER_STIM_COMBINATION = 5
 
@@ -35,9 +47,12 @@ screen_colour = BLACK
 x_circle,y_circle = 0,0
 circle_position = (x_circle, y_circle)
 circle_line_width= 0
+circle_duration = 10
+time_bw_circles = 50
 beep_duration = 10
 beep_frequency = 3500
 beep_db = 80
+time_bw_beeps = 57
 
 
 def get_amplitude_from_intensity(intensity):
@@ -58,30 +73,33 @@ circle_stim.preload()
 beep_stim.preload()
 
 
-def repeat stimulus N times (stim, N, ):
-    for _ in range(N):
+onset_time_of_flashes = []
 
+for flash_index in range(max(max(N_FLASHES_CATCHCONTROL), max(N_FLASHES_TEST))):
+    onset_time_of_flashes.append(flash_index*(circle_duration+time_bw_circles))
 
+onset_time_of_beeps = []
 
-
-
+for beep_index in range(max(max(N_BEEPS_CATCH), max(N_BEEPS_CONTROL), max(N_BEEPS_TEST))):
+    onset_time_of_beeps.append(beep_index*(beep_duration+time_bw_beeps))
 
 ## preparation
 block = design.Block()
-for combination in (STIM_COMBINATIONS * N_TRIALS_PER_STIM_COMBINATION):
-    t = design.Trial()
-    t.set_factor('number_of_flashes', combination[0])
-    t.set_factor('number_of_beeps', combination[1])
-    t.add_stimulus(circle_stim)
-    t.add_stimulus(beep_stim)
-    block.add_trial(t)
+for condition in CONDITIONS :
+    for combination in (condition[2] * N_TRIALS_PER_STIM_COMBINATION):
+        t = design.Trial()
+        t.set_factor('number_of_flashes', combination[0])
+        t.set_factor('number_of_beeps', combination[1])
+        t.set_factor('condition', str(condition))
+        t.add_stimulus(circle_stim)
+        t.add_stimulus(beep_stim)
+        block.add_trial(t)
 
 block.shuffle_trials(max_repetitions=1)
 
 
 exp.add_data_variable_names(
-    ['number_of_flashes', 'number_of_beeps', 'respkey', 'RT'])
-
+    ['condition','number_of_flashes', 'number_of_beeps', 'respkey', 'RT'])
 
  
 control.start(skip_ready_screen=True)
@@ -93,13 +111,14 @@ for trial in block.trials:
     exp.clock.wait(500)
 
     for x in range(trial.get_factor('number_of_flashes')):
-    	trial.stimuli[0].present()
-    	exp.clock.wait(10)
-    	blankscreen.present()
-    	exp.clock.wait(50)
-    	for y in range(trial.get_factor('number_of_beeps')):
-    		trial.stimuli[1].present()
-    		exp.clock.wait(57)
+        exp.clock.wait(circle_duration)
+        blankscreen.present()
+        exp.clock.wait(time_bw_circles)	
+        for y in range(trial.get_factor('number_of_beeps')):
+            trial.stimuli[1].present()
+            exp.clock.wait(time_bw_beeps)trial.stimuli[0].present()
+
+
     	
 
 
