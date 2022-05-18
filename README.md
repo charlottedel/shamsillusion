@@ -15,6 +15,7 @@ The values for the stimuli parameters in the experiment code are based on the de
 ## Requirements 
 
 The code for the experiment requires the installation of the packages: *expyriment* and *numpy*.
+
 The data analysis code requires the installation of the packages: *expyriment*, *matplotlib.pyplot*, *pandas*, *seaborn*, *scipy*, *glob* and *os*.
 
 ## Experimental conditions:
