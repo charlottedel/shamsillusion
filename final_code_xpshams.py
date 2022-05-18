@@ -2,7 +2,7 @@ from expyriment import design, control, stimuli, misc
 import numpy as np
 
 exp = design.Experiment(name="Shams Illusion Experiment", text_size=30)
-control.set_develop_mode(True)
+#control.set_develop_mode(True)
 
 control.initialize(exp)
 
