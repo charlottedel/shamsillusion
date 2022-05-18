@@ -45,7 +45,7 @@ In the end, a simpler way to code this was by iterating over a sorted list of al
 
 ## Data analysis
 
-Here are two plots illustrating the Shams effect, obtained from example data of one subject: [data folder](https://github.com/charlottedel/shamsillusion/data).
+Here are two plots illustrating the Shams effect, obtained from [example data of one subject](https://github.com/charlottedel/shamsillusion/blob/main/data/final_code_xpshams_pilot.xpd).
 
 ![Shams Plots](PROJ_plots.png)
 
