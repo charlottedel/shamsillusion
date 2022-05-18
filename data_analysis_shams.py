@@ -7,7 +7,7 @@ import pandas as pd
 import glob
 import os
 
-files_joined = os.path.join(os.getcwd(), "data/bits_of_code_xpshams2_*.xpd")
+files_joined = os.path.join(os.getcwd(), "data/final_code_xpshams_*.xpd")
 list_subject_results_files = glob.glob(files_joined)
 df_list =[]
 
